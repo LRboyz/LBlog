@@ -1,9 +1,9 @@
 import React from "react";
-import Head from "next/head";
 import NextLink from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import LightLogo from '/public/logo/logo_light.png'
+import DarkLogo from '/public/logo/logo_dark.png'
 import cn from "classnames";
 import { useTheme } from "next-themes";
 
@@ -15,9 +15,9 @@ const NavItem = ({ href, text }) => {
       <a
         className={cn(
           isActive
-            ? "font-semibold text-gray-800 dark:text-gray-200"
+            ? "font-bold text-blue-600 dark:text-gray-200"
             : "font-normal text-gray-600 dark:text-gray-400",
-          "hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all"
+          "p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 hover:text-blue-600 dark:hover:bg-blue-600 transition-all"
         )}
       >
         <span className="capsize">{text}</span>
@@ -29,25 +29,23 @@ const AppLayout: React.FC = (props) => {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <Head children />
-      <header className="flex flex-col justify-center">
-        <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pt-3 sm:pb-3  text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
+    <div className="bg-gray-50 dark:bg-gray-800">
+      <header className="flex flex-col justify-center border-b">
+        <nav className="relative flex items-center justify-between w-full max-w-4xl pt-3 mx-auto text-gray-900 border-gray-200 dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
           <a href="#skip" className="text-bold skip-nav">
-            <Image src={LightLogo} width={150} height={40}/>
+            <Image src={resolvedTheme === "light" ? LightLogo : DarkLogo} width={150} height={40} />
           </a>
-          <div className="ml-[-0.60rem]">
-            {/* <MobileMenu /> */}
+          {/* <div className="ml-[-0.60rem]">
             <NavItem href="/" text="Home" />
             <NavItem href="/about" text="About" />
             <NavItem href="/project" text="Project" />
             <NavItem href="/blog" text="Blog" />
             <NavItem href="/snippets" text="Snippets" />
-          </div>
+          </div> */}
           <button
             aria-label="Toggle Dark Mode"
             type="button"
-            className="w-9 h-9 bg-gray-200 rounded-lg dark:bg-gray-600 flex items-center justify-center  hover:ring-2 ring-gray-300  transition-all"
+            className="flex items-center justify-center transition-all bg-gray-200 rounded-lg w-9 h-9 dark:bg-gray-600 hover:ring-2 ring-gray-300"
             onClick={() =>
               setTheme(resolvedTheme === "dark" ? "light" : "dark")
             }
@@ -78,12 +76,25 @@ const AppLayout: React.FC = (props) => {
           </button>
         </nav>
       </header>
-      <main className="flex flex-col justify-center  min-h-screen bg-gray-200 dark:bg-gray-900">
-        <div className="container mx-auto">
-            {props.children}
+
+      <nav className="sticky top-0 ">
+        <div className="flex w-full bg-gray-50 dark:bg-gray-800 text-black ">
+          <ul className="container max-w-4xl mx-auto flex p-2">
+            <NavItem href="/" text="前端" />
+            <NavItem href="/about" text="後端" />
+            <NavItem href="/project" text="生活" />
+            <NavItem href="/blog" text="IOS" />
+            <NavItem href="/snippets" text="運維" />
+          </ul>
+        </div>
+      </nav>
+
+      <main className="flex flex-col justify-center px-4 min-h-screen bg-gray-200 dark:bg-gray-900">
+        <div className="container max-w-4xl mx-auto">
+          {props.children}
         </div>
       </main>
-      <footer className="p-5 text-black text-center">
+      <footer className="p-5 text-center text-black">
         LRBlog powered by Next.js
       </footer>
     </div>
