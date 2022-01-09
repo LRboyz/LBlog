@@ -31,7 +31,7 @@ const AppLayout: React.FC = (props) => {
   return (
     <div className="bg-gray-50 dark:bg-gray-800">
       <header className="flex flex-col justify-center border-b">
-        <nav className="relative flex items-center justify-between w-full max-w-4xl pt-3 mx-auto text-gray-900 border-gray-200 dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
+        <nav className="relative flex items-center justify-between w-full max-w-5xl pt-3 mx-auto text-gray-900 border-gray-200 dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
           <a href="#skip" className="text-bold skip-nav">
             <Image src={resolvedTheme === "light" ? LightLogo : DarkLogo} width={150} height={40} />
           </a>
@@ -77,9 +77,9 @@ const AppLayout: React.FC = (props) => {
         </nav>
       </header>
 
-      <nav className="sticky top-0 ">
+      <nav className="sticky top-0">
         <div className="flex w-full bg-gray-50 dark:bg-gray-800 text-black ">
-          <ul className="container max-w-4xl mx-auto flex p-2">
+          <ul className="container max-w-5xl mx-auto flex p-2">
             <NavItem href="/" text="前端" />
             <NavItem href="/about" text="後端" />
             <NavItem href="/project" text="生活" />
@@ -89,8 +89,8 @@ const AppLayout: React.FC = (props) => {
         </div>
       </nav>
 
-      <main className="flex flex-col justify-center px-4 min-h-screen bg-gray-200 dark:bg-gray-900">
-        <div className="container max-w-4xl mx-auto">
+      <main className="flex justify-center px-4 min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="container max-w-5xl mx-auto">
           {props.children}
         </div>
       </main>
