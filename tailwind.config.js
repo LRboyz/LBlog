@@ -3,6 +3,11 @@ module.exports = {
   content: [],
   theme: {
     extend: {},
+    // textColor: theme => theme('colors'),
+    textColor: {
+      'light': '#000000AD',
+      'dark': '#F0F0F0',
+    },
   },
   darkMode: "class",
 };

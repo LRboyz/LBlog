@@ -7,6 +7,7 @@ import {
   IconStar,
   IconTwitter,
 } from "@arco-design/web-react/icon";
+import Link from "next/link";
 
 export type ArticleData = {};
 const imageSrc = [
@@ -34,67 +35,70 @@ const dataSource = new Array(15).fill(null).map((_, index) => {
 export default function ArticleList(data: ArticleData) {
   return (
     <List
-      className="list-demo-action-layout"
-      //   wrapperStyle={{ maxWidth: 830 }}
+      className="bg-opacity-50 "
       bordered={false}
       dataSource={dataSource}
       render={(item, index) => (
-        <List.Item
-          className="hover:shadow-md cursor-pointer duration-300 mb-2"
-          key={index}
-          style={{
-            padding: "10px 5px",
-            borderBottom: "1px solid var(--color-fill-3)",
-          }}
-          actionLayout="vertical"
-          actions={[
-            <span key={1}>
-              <IconHeart />
-              {83}
-            </span>,
-            <span key={2}>
-              <IconStar />
-              {item.index}
-            </span>,
-            <span key={3}>
-              <IconMessage />
-              23
-            </span>,
-            <Tag className="mr-3" color="gray" icon={<IconGithub />}>
-              Github
-            </Tag>,
-            <Tag className="mr-3" color="orangered" icon={<IconGitlab />}>
-              Gitlab
-            </Tag>,
-            <Tag color="blue" icon={<IconTwitter />}>
-              Twitter
-            </Tag>,
-          ]}
-          extra={
-            <div className="ml-2 order-1">
-              <img
-                alt="arcodesign"
-                className="rounded-lg" 
-                src={item.imageSrc}
-                style={{ width: 183, height: 110 }}
-              />
-            </div>
-          }
-        >
-          <List.Item.Meta
-            title={
-              <div>
-                <span className="mr-5">{item.title}</span>
-                <Tag>前端</Tag>
+        <Link href="article/1" key={index}>
+          <List.Item
+            className="hover:shadow cursor-pointer duration-300 mb-2"
+            key={index}
+            style={{
+              padding: "10px 5px",
+              borderBottom: "1px solid var(--color-fill-3)",
+            }}
+            actionLayout="vertical"
+            actions={[
+              <span className="text-light dark:text-dark" key={1}>
+                <IconHeart className="mr-1" />
+                {83}
+              </span>,
+              <span key={2} className="text-light dark:text-dark">
+                <IconStar className="mr-1" />
+                {item.index}
+              </span>,
+              <span key={3} className="text-light dark:text-dark">
+                <IconMessage className="mr-1" />
+                23
+              </span>,
+              <Tag className="mr-3" color="gray" icon={<IconGithub />}>
+                Github
+              </Tag>,
+              <Tag className="mr-3" color="orangered" icon={<IconGitlab />}>
+                Gitlab
+              </Tag>,
+              <Tag color="blue" icon={<IconTwitter />}>
+                Twitter
+              </Tag>,
+            ]}
+            extra={
+              <div className="ml-2 order-1">
+                <img
+                  alt="arcodesign"
+                  className="rounded-lg"
+                  src={item.imageSrc}
+                  style={{ width: 183, height: 110 }}
+                />
               </div>
             }
-            description={
-              <div className="pt-2" style={{ minHeight: 60 }}>
-                {item.description}
-              </div>
-            }
-          />
-        </List.Item>
+          >
+            <List.Item.Meta
+              title={
+                <div>
+                  <span className="mr-5 text-light dark:text-dark">
+                    {item.title}
+                  </span>
+                  <Tag>前端</Tag>
+                </div>
+              }
+              description={
+                <div className="pt-2" style={{ minHeight: 60 }}>
+                  {item.description}
+                </div>
+              }
+            />
+          </List.Item>
+        </Link>
       )}
     />
   );

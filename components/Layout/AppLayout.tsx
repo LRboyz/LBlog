@@ -15,9 +15,9 @@ const NavItem = ({ href, text }) => {
       <a
         className={cn(
           isActive
-            ? "font-bold text-blue-600 dark:text-gray-200"
+            ? "font-bold text-blue-600 dark:text-gray-200 bg-gray-200 dark:bg-blue-600"
             : "font-normal text-gray-600 dark:text-gray-400",
-          "p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 hover:text-blue-600 dark:hover:bg-blue-600 transition-all"
+          "mr-2 p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 hover:text-blue-600 dark:hover:bg-blue-600 transition-all"
         )}
       >
         <span className="capsize">{text}</span>
@@ -29,8 +29,8 @@ const AppLayout: React.FC = (props) => {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800">
-      <header className="flex flex-col justify-center border-b">
+    <div className="bg-gray-50 dark:bg-gray-800 ">
+      <header className="flex flex-col justify-center border-b divide-gray-100">
         <nav className="relative flex items-center justify-between w-full max-w-5xl pt-3 mx-auto text-gray-900 border-gray-200 dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
           <a href="#skip" className="text-bold skip-nav">
             <Image src={resolvedTheme === "light" ? LightLogo : DarkLogo} width={150} height={40} />
@@ -78,7 +78,7 @@ const AppLayout: React.FC = (props) => {
       </header>
 
       <nav className="sticky top-0">
-        <div className="flex w-full bg-gray-50 dark:bg-gray-800 text-black ">
+        <div style={{ backdropFilter: 'blur(5px)' }} className="flex w-full bg-gray-50 bg-opacity-50 dark:bg-gray-800 text-black ">
           <ul className="container max-w-5xl mx-auto flex p-2">
             <NavItem href="/" text="前端" />
             <NavItem href="/about" text="後端" />

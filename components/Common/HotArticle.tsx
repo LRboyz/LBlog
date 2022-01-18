@@ -5,10 +5,10 @@ export default function HotArticle() {
   return (
     <div>
       <List
-        className="bg-white rounded-lg"
+        className="bg-white dark:bg-gray-800 rounded-lg"
         size="small"
         bordered={false}
-        header={<h4 className="text-sm">推荐文章  🔥</h4>}
+        header={<h4 className="text-sm dark:text-dark">推荐文章  🔥</h4>}
         dataSource={[
           "Python 全栈开发",
           "字节跳动面经总结",
@@ -17,7 +17,7 @@ export default function HotArticle() {
           "AntDesign",
         ]}
         render={(item, index) => (
-          <List.Item key={index} className="text-gray-600 cursor-pointer hover:shadow duration-300 hover:font-semibold" style={{ border: "none"}}>
+          <List.Item key={index} className="dark:text-dark text-gray-600 cursor-pointer hover:shadow duration-200 hover:font-semibold" style={{ border: "none"}}>
             <span className="mr-2 font-bold p-2 text-xs" style={{ color: ColorBox[index] }}>
               {index + 1}
             </span>

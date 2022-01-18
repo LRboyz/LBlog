@@ -8,7 +8,7 @@ import {
 
 export default function TagList() {
   return (
-    <div className="flex bg-white flex-wrap rounded-lg flex-start p-3">
+    <div className="flex bg-white dark:bg-gray-800 flex-wrap rounded-lg fduration-300 lex-start p-3 mt-5">
         <Tag className="mr-2 mb-2" color="gray" icon={<IconGithub />}>
           Github(2)
         </Tag>
