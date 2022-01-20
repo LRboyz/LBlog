@@ -1,4 +1,7 @@
-import { List, Tag } from "@arco-design/web-react";
+import { Article } from "@/api/article";
+import { Pagination } from "@/api/general";
+import { COLORS } from "@/constants";
+import { List, Tag, Icon } from "@arco-design/web-react";
 import {
   IconGithub,
   IconGitlab,
@@ -32,16 +35,25 @@ const dataSource = new Array(15).fill(null).map((_, index) => {
   };
 });
 
-export default function ArticleList(data: ArticleData) {
+interface ArticleListProps {
+  articles: Article[]
+  loading: boolean
+  pagination: Pagination
+}
+
+export default function ArticleList({ articles, loading, pagination }: ArticleListProps) {
+
+  const IconFont = Icon.addFromIconFontCn({ src: '//at.alicdn.com/t/font_2700222_mq6ajweycfm.js' });
+
   return (
     <List
-      className="bg-opacity-50 "
+      className="px-3 bg-opacity-50"
       bordered={false}
-      dataSource={dataSource}
+      dataSource={articles}
       render={(item, index) => (
         <Link href="article/1" key={index}>
           <List.Item
-            className="hover:shadow cursor-pointer duration-300 mb-2"
+            className="mb-2 duration-300 cursor-pointer hover:shadow hover:bg-gray-50"
             key={index}
             style={{
               padding: "10px 5px",
@@ -49,34 +61,32 @@ export default function ArticleList(data: ArticleData) {
             }}
             actionLayout="vertical"
             actions={[
-              <span className="text-light dark:text-dark" key={1}>
+              <span className="hidden text-light dark:text-dark sm:block" key={1}>
                 <IconHeart className="mr-1" />
                 {83}
               </span>,
-              <span key={2} className="text-light dark:text-dark">
+              <span key={2} className="hidden text-light dark:text-dark sm:block">
                 <IconStar className="mr-1" />
-                {item.index}
+                {index}
               </span>,
-              <span key={3} className="text-light dark:text-dark">
+              <span key={3} className="hidden text-light dark:text-dark sm:block">
                 <IconMessage className="mr-1" />
                 23
               </span>,
-              <Tag className="mr-3" color="gray" icon={<IconGithub />}>
-                Github
-              </Tag>,
-              <Tag className="mr-3" color="orangered" icon={<IconGitlab />}>
-                Gitlab
-              </Tag>,
-              <Tag color="blue" icon={<IconTwitter />}>
-                Twitter
-              </Tag>,
+              <div>
+                {
+                  item.tag.map(tag => (
+                    <Tag icon={<IconFont type={tag.extends[1].value} style={{ fontSize: 14 }} />}> {tag.name} </Tag>
+                  ))
+                }
+              </div>
             ]}
             extra={
-              <div className="ml-2 order-1">
+              <div className="order-1 ml-2">
                 <img
                   alt="arcodesign"
                   className="rounded-lg"
-                  src={item.imageSrc}
+                  src={item.thumb}
                   style={{ width: 183, height: 110 }}
                 />
               </div>
@@ -85,14 +95,14 @@ export default function ArticleList(data: ArticleData) {
             <List.Item.Meta
               title={
                 <div>
-                  <span className="mr-5 text-light dark:text-dark">
+                  <span className="mr-5 font-bold text-light dark:text-dark hover:text-primary">
                     {item.title}
                   </span>
-                  <Tag>前端</Tag>
+                  <Tag color={COLORS[Math.floor(Math.random() * COLORS.length)]}>{item.category[0].name}</Tag>
                 </div>
               }
               description={
-                <div className="pt-2" style={{ minHeight: 60 }}>
+                <div className="pt-2 text-gray" style={{ minHeight: 60 }}>
                   {item.description}
                 </div>
               }

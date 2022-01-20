@@ -5,8 +5,10 @@ module.exports = {
     extend: {},
     // textColor: theme => theme('colors'),
     textColor: {
-      'light': '#000000AD',
-      'dark': '#F0F0F0',
+      light: "#000000AD",
+      dark: "#F0F0F0",
+      primary: "#2563EB",
+      gray: "#6B7280",
     },
   },
   darkMode: "class",

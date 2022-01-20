@@ -1,5 +1,10 @@
 import { Category } from "./category";
-import { GeneralExtend, GeneralGetPageParams, PublishState } from "./general";
+import {
+  GeneralExtend,
+  GeneralGetPageParams,
+  Pagination,
+  PublishState,
+} from "./general";
 import http from "./http";
 import { Tag } from "./tag";
 
@@ -63,9 +68,12 @@ export interface GetArticleParams extends GeneralGetPageParams {
 
 export const ARTICLE_API_PATH = "/article";
 
-export function getArticles(params: GetArticleParams) {
+export function getArticles(params?: GetArticleParams) {
   return http
-    .get<Article>(ARTICLE_API_PATH, {
+    .get<{
+      data: Article[];
+      pagination: Pagination;
+    }>(ARTICLE_API_PATH, {
       params,
     })
     .then((response) => response.result);

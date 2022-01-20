@@ -3,8 +3,7 @@ import Head from "next/head";
 import "styles/global.css";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
-import AppLayout from "components/Layout/AppLayout";
-
+import AppLayout from "@/components/Layout/AppLayout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

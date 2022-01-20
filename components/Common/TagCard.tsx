@@ -1,4 +1,3 @@
-import { Tag } from '@vechaiui/react'
 import cn from 'classnames'
 import Link from 'next/link'
 
@@ -10,7 +9,7 @@ export default function TagCard() {
             "from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]",
             "shadow-lg"
         )}>
-            <div className='p-6 bg-white dark:bg-gray-900 rounded-lg'>
+            <div className='p-6 bg-white rounded-lg dark:bg-gray-900'>
 
             </div>
         </div>

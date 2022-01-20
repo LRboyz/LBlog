@@ -15,9 +15,9 @@ const NavItem = ({ href, text }) => {
       <a
         className={cn(
           isActive
-            ? "font-bold text-blue-600 dark:text-gray-200 bg-gray-200 dark:bg-blue-600"
-            : "font-normal text-gray-600 dark:text-gray-400",
-          "mr-2 p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 hover:text-blue-600 dark:hover:bg-blue-600 transition-all"
+            ? "font-bold text-primary dark:text-gray-200 bg-blue-100 dark:bg-blue-600"
+            : "font-normal dark:text-gray-400",
+          "mr-2 p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-blue-100 hover:text-primary dark:hover:bg-blue-600 transition-all"
         )}
       >
         <span className="capsize">{text}</span>
@@ -78,8 +78,8 @@ const AppLayout: React.FC = (props) => {
       </header>
 
       <nav className="sticky top-0">
-        <div style={{ backdropFilter: 'blur(5px)' }} className="flex w-full bg-gray-50 bg-opacity-50 dark:bg-gray-800 text-black ">
-          <ul className="container max-w-5xl mx-auto flex p-2">
+        <div style={{ backdropFilter: 'blur(5px)' }} className="flex w-full text-black bg-opacity-50 bg-gray-50 dark:bg-gray-800 ">
+          <ul className="container flex max-w-5xl p-2 mx-auto">
             <NavItem href="/" text="前端" />
             <NavItem href="/about" text="後端" />
             <NavItem href="/project" text="生活" />
@@ -89,7 +89,7 @@ const AppLayout: React.FC = (props) => {
         </div>
       </nav>
 
-      <main className="flex justify-center px-4 min-h-screen bg-gray-100 dark:bg-gray-900">
+      <main className="flex justify-center min-h-screen px-4 bg-gray-100 dark:bg-gray-900">
         <div className="container max-w-5xl mx-auto">
           {props.children}
         </div>
