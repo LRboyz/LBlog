@@ -1,115 +1,89 @@
 import { Article } from "@/api/article";
 import { Pagination } from "@/api/general";
-import { COLORS } from "@/constants";
-import { List, Tag, Icon } from "@arco-design/web-react";
+import { Tag, Icon, Image, Spin, Button, Space, Skeleton } from "@arco-design/web-react";
 import {
-  IconGithub,
-  IconGitlab,
+  IconEye,
   IconHeart,
   IconMessage,
   IconStar,
-  IconTwitter,
 } from "@arco-design/web-react/icon";
 import Link from "next/link";
 
-export type ArticleData = {};
-const imageSrc = [
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/29c1f9d7d17c503c5d7bf4e538cb7c4f.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/04d7bc31dd67dcdf380bc3f6aa07599f.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/1f61854a849a076318ed527c8fca1bbf.png~tplv-uwbnlip3yd-webp.webp",
-];
-const names = ["前端工程师的领悟", "后端工程师的挣扎", "运维工程师的呐喊"];
-
-const avatarSrc = [
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/e278888093bef8910e829486fb45dd69.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/9eeb1800d9b78349b24682c3518ac4a3.png~tplv-uwbnlip3yd-webp.webp",
-];
-const dataSource = new Array(15).fill(null).map((_, index) => {
-  return {
-    index: index,
-    avatar: avatarSrc[index % avatarSrc.length],
-    title: names[index % names.length],
-    description: "活在当下",
-    imageSrc: imageSrc[index % imageSrc.length],
-  };
-});
-
 interface ArticleListProps {
   articles: Article[]
-  loading: boolean
-  pagination: Pagination
+  fetching: boolean
 }
 
-export default function ArticleList({ articles, loading, pagination }: ArticleListProps) {
+export default function ArticleList({ articles, fetching }: ArticleListProps) {
 
   const IconFont = Icon.addFromIconFontCn({ src: '//at.alicdn.com/t/font_2700222_mq6ajweycfm.js' });
-
+  console.log(fetching)
   return (
-    <List
-      className="px-3 bg-opacity-50"
-      bordered={false}
-      dataSource={articles}
-      render={(item, index) => (
-        <Link href="article/1" key={index}>
-          <List.Item
-            className="mb-2 duration-300 cursor-pointer hover:shadow hover:bg-gray-50"
-            key={index}
-            style={{
-              padding: "10px 5px",
-              borderBottom: "1px solid var(--color-fill-3)",
-            }}
-            actionLayout="vertical"
-            actions={[
-              <span className="hidden text-light dark:text-dark sm:block" key={1}>
-                <IconHeart className="mr-1" />
-                {83}
-              </span>,
-              <span key={2} className="hidden text-light dark:text-dark sm:block">
-                <IconStar className="mr-1" />
-                {index}
-              </span>,
-              <span key={3} className="hidden text-light dark:text-dark sm:block">
-                <IconMessage className="mr-1" />
-                23
-              </span>,
-              <div>
-                {
-                  item.tag.map(tag => (
-                    <Tag icon={<IconFont type={tag.extends[1].value} style={{ fontSize: 14 }} />}> {tag.name} </Tag>
-                  ))
-                }
-              </div>
-            ]}
-            extra={
-              <div className="order-1 ml-2">
-                <img
-                  alt="arcodesign"
-                  className="rounded-lg"
-                  src={item.thumb}
-                  style={{ width: 183, height: 110 }}
-                />
-              </div>
-            }
-          >
-            <List.Item.Meta
-              title={
-                <div>
-                  <span className="mr-5 font-bold text-light dark:text-dark hover:text-primary">
-                    {item.title}
-                  </span>
-                  <Tag color={COLORS[Math.floor(Math.random() * COLORS.length)]}>{item.category[0].name}</Tag>
+    <div className="flex flex-col w-full">
+      {
+        !fetching ? (
+          articles.map((article, index) => (
+            <Link href={`/article/${article.id}`} key={index}>
+              <div
+                key={article._id}
+                className="relative mb-4 duration-300 bg-white bg-opacity-50 dark: bg-opacity-5 bg-center rounded-md shadow cursor-pointer dark:bg-dark-100 h-36 hover:bg-white dark:hover:bg-gray-600 overflow-clip" >
+
+                <div className="absolute inset-0 flex p-2">
+                  <a className="flex items-center " style={{ width: 200 }}>
+                    <Image
+                      style={{ minWidth: 195, minHeight: 120 }}
+                      className="flex items-center object-cover rounded-lg"
+                      src={`${article.thumb}`}
+                    />
+                  </a>
+
+                  <div className="flex-col flex-auto flex-grow px-3">
+                    <div className="flex h-30">
+                      <h1 className="flex-auto text-sm font-semibold truncate">
+                        {article.title}
+                      </h1>
+                      <div className="flex hidden sm:block">
+                        {
+                          article.tag.map((tag, index) => (
+                            <Tag key={tag._id}
+                              color="arcoblue"
+                              className="mr-4"
+                              icon={<IconFont type={tag.extends[1].value} style={{ fontSize: 14 }} />}>
+                              {tag.name}
+                            </Tag>
+                          )).slice(0, 2)
+                        }
+                      </div>
+                    </div>
+
+                    <p className="w-full mt-3 text-sm break-words truncate text-gray dark:text-dark" style={{ minHeight: 70 }} >
+                      {article.description}
+                    </p>
+
+                    <div className="flex items-center">
+                      <div className="hidden sm:block">
+                        <Space>
+                          <Button icon={<IconHeart />} size="mini" >10</Button>
+                          <Button icon={<IconMessage />} size="mini" >10</Button>
+                          <Button icon={<IconStar />} size="mini" >5</Button>
+                          <Button icon={<IconEye />} size="mini" >66</Button>
+                        </Space>
+                      </div>
+                      <div style={{ flex: 1 }} className="hidden sm:block"></div>
+                      <span className="text-xs text-gray dark:text-dark">一周前</span>
+                    </div>
+                  </div>
                 </div>
-              }
-              description={
-                <div className="pt-2 text-gray" style={{ minHeight: 60 }}>
-                  {item.description}
-                </div>
-              }
-            />
-          </List.Item>
-        </Link>
-      )}
-    />
+                <div className="dark:opacity-5 inset-0 w-full h-full duration-700 bg-center bg-no-repeat absoulte opacity-5 hover:opacity-0 dark:hover:bg-gray-600" style={{ backgroundImage: `url(${article.thumb})`, backgroundSize: '120%' }} />
+              </div>
+            </Link>
+          ))
+        ) : (
+
+          <Skeleton text={{ rows: 3, width: ['100%'] }} image animation></Skeleton>
+
+        )
+      }
+    </div>
   );
 }

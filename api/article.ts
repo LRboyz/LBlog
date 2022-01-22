@@ -1,12 +1,12 @@
-import { Category } from "./category";
+import { Category } from './category'
 import {
   GeneralExtend,
   GeneralGetPageParams,
   Pagination,
   PublishState,
-} from "./general";
-import http from "./http";
-import { Tag } from "./tag";
+} from './general'
+import http from './http'
+import { Tag } from './tag'
 
 /** 文章来源 */
 export enum ArticleOrigin {
@@ -30,51 +30,63 @@ export enum SortType {
 
 /** 文章 */
 export interface Article {
-  id?: number;
-  _id?: string | number;
-  slug: string | null;
-  title: string;
-  content?: string;
-  description: string;
-  keywords: string[];
-  thumb?: string;
-  tag: Array<Tag>;
-  category: Array<Category>;
-  origin: ArticleOrigin;
-  public: ArticlePublic;
-  state: PublishState;
-  disabled_comment?: boolean;
-  password?: string;
+  id?: number
+  _id?: string | number
+  slug: string | null
+  title: string
+  content?: string
+  description: string
+  keywords: string[]
+  thumb?: string
+  tag: Array<Tag>
+  category: Array<Category>
+  origin: ArticleOrigin
+  public: ArticlePublic
+  state: PublishState
+  disabled_comment?: boolean
+  password?: string
   meta?: {
-    likes: number;
-    views: number;
-    comments: number;
-  };
-  update_at?: string;
-  create_at?: string;
-  extends: Array<GeneralExtend>;
+    likes: number
+    views: number
+    comments: number
+  }
+  update_at?: string
+  create_at?: string
+  extends: Array<GeneralExtend>
 }
 
 /** 获取文章参数 */
-export interface GetArticleParams extends GeneralGetPageParams {
-  keyword?: string;
-  tag?: string;
-  category?: string;
-  sort?: SortType;
-  state?: PublishState;
-  public?: ArticlePublic;
-  origin?: ArticleOrigin;
+// export interface GetArticleParams extends GeneralGetPageParams {
+//   keyword?: string;
+//   tag?: string;
+//   category?: string;
+//   sort?: SortType;
+//   state?: PublishState;
+//   public?: ArticlePublic;
+//   origin?: ArticleOrigin;
+// }
+type ArticleResult = {
+  data: Article[]
+  pagination: Pagination
 }
+export const ARTICLE_API_PATH = '/article'
 
-export const ARTICLE_API_PATH = "/article";
-
-export function getArticles(params?: GetArticleParams) {
+export const getArticles = (params?) => {
+  console.log(params, '请求参数')
   return http
-    .get<{
-      data: Article[];
-      pagination: Pagination;
-    }>(ARTICLE_API_PATH, {
+    .get<ArticleResult>(`/article`, {
       params,
     })
-    .then((response) => response.result);
+    .then((response) => response.result)
 }
+// export function getArticles(params = {}) {
+//   console.log(params, '请求参数')
+//   return http
+//     .get<{
+//       data: Article[]
+//       pagination: Pagination
+//     }>(ARTICLE_API_PATH, {
+//       params,
+//     })
+//     .then((response) => response.result)
+// }
