@@ -6,12 +6,14 @@ import HotArticle from 'components/Common/HotArticle'
 import TagList from 'components/Common/TagList'
 import { NextPage } from 'next'
 import { Affix } from '@arco-design/web-react'
-import { Article, getArticles, SortType } from '@/api/article'
+import { IArticle, getArticles, SortType } from '@/api/article'
 import { Pagination } from '@/api/general'
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
+import { getTags, ITag } from '@/api/tag'
 
 interface IIndexPageProps {
-  articles: Article[]
+  articles: IArticle[]
+  tags: ITag[]
 }
 
 const defaultPagination: Pagination = {
@@ -23,16 +25,16 @@ const defaultPagination: Pagination = {
 
 const IndexPage: NextPage<IIndexPageProps> = ({
   articles: defaultArticles = [],
+  tags = [],
 }) => {
   const router = useRouter()
-  const [articles, setArticles] = useState<Article[]>(defaultArticles)
+  const [articles, setArticles] = useState<IArticle[]>(defaultArticles)
   const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
   const [fetching, setFetching] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [sort, setSort] = useState<SortType>(null)
 
-  console.log(router.query)
 
   useEffect(() => {
     const query = router.query as any
@@ -48,28 +50,30 @@ const IndexPage: NextPage<IIndexPageProps> = ({
   useEffect(() => {
     sort && fetchArticle()
   }, [sort])
-  // const { data: articles, loading: articleLoading } = useRequest(getArticles);
-  // console.log(category, "CategoryStore")
+
   const fetchArticle = () => {
     setArticles([])
     setPage(1)
     setFetching(true)
-    console.log(page, 'page')
-    getArticles({ page, sort, category: router.query['category_id'] }).then((result) => {
-      setArticles(result.data)
-      setTotal(result.pagination.total)
-      setFetching(false)
-    })
+    getArticles({ page, sort, category: router.query['category_id'] }).then(
+      (result) => {
+        setArticles(result.data)
+        setTotal(result.pagination.total)
+        setFetching(false)
+      }
+    )
   }
 
   const loadMore = () => {
     setLoading(true)
-    getArticles({ page, sort, category: router.query['category_id'] }).then((result) => {
-      setPage(result.pagination.current_page)
-      setArticles((articles) => [...articles, ...result.data])
-      setTotal(result.pagination.total)
-      setLoading(false)
-    })
+    getArticles({ page, sort, category: router.query['category_id'] }).then(
+      (result) => {
+        setPage(result.pagination.current_page)
+        setArticles((articles) => [...articles, ...result.data])
+        setTotal(result.pagination.total)
+        setLoading(false)
+      }
+    )
   }
 
   return (
@@ -77,22 +81,25 @@ const IndexPage: NextPage<IIndexPageProps> = ({
       <div className="w-full text-gray-500 rounded-lg sm:w-3/4 ">
         <div className="flex p-3 mb-2 duration-700 bg-white dark:bg-gray-800 bg-opacity-60 hover:bg-white dark:hover:bg-gray-600">
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Asc ? 'text-primary font-bold' : ''
-              }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${
+              sort === SortType.Asc ? 'text-primary font-bold' : ''
+            }`}
             onClick={() => setSort(SortType.Asc)}
           >
             最早
           </span>
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Desc ? 'text-primary font-bold' : ''
-              }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${
+              sort === SortType.Desc ? 'text-primary font-bold' : ''
+            }`}
             onClick={() => setSort(SortType.Desc)}
           >
             最新
           </span>
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Hot ? 'text-primary font-bold' : ''
-              }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${
+              sort === SortType.Hot ? 'text-primary font-bold' : ''
+            }`}
             onClick={() => setSort(SortType.Hot)}
           >
             最热
@@ -101,21 +108,22 @@ const IndexPage: NextPage<IIndexPageProps> = ({
         {/* 文章列表 */}
         <ArticleList {...{ articles: articles, fetching }} />
         {/* 加载更多 */}
-        {articles.length && articles.length < total && !fetching ? (
-          <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full">
+          {articles.length && articles.length < total && !fetching ? (
             <Button onClick={() => setPage((page) => page + 1)} loading={loading}>
               加载更多
             </Button>
-          </div>
-        ) : (
-          <Divider orientation="center">
-            <span className="text-sm text-gray">到底啦</span>
-          </Divider>
-        )}
+          ) : (
+            <Divider orientation="center">
+              <span className="text-sm text-gray">到底啦</span>
+            </Divider>
+          )}
+        </div>
       </div>
       <div className="hidden w-1/4 ml-5 sm:block">
         <Affix offsetTop={60}>
-          <HotArticle />
+          <HotArticle hotList={articles.sort((one, two) => one.meta?.views! - two.meta?.views! )}/>
+          {/* 广告 */}
           {/* <Carousel
             className="dark:bg-gray-800"
             style={{
@@ -133,7 +141,7 @@ const IndexPage: NextPage<IIndexPageProps> = ({
               </div>
             ))}
           </Carousel> */}
-          <TagList />
+          <TagList tags={tags} />
         </Affix>
       </div>
     </div>
@@ -144,8 +152,10 @@ export default IndexPage
 
 // 服務端預獲取數據
 IndexPage.getInitialProps = async () => {
-  const { data } = await getArticles()
+  const [articles, tags] = await Promise.all([getArticles(), getTags()])
+
   return {
-    articles: data,
+    articles: articles.data,
+    tags: tags.data,
   }
 }

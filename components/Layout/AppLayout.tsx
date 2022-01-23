@@ -44,7 +44,7 @@ const AppLayout: React.FC = ({ children }) => {
     fetchCategory()
   }, [])
 
-  console.log(categories, "分類")
+  // console.log(categories, "分類")
 
   return (
     <div className="bg-gray-50 dark:bg-gray-800 ">

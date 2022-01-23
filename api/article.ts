@@ -6,7 +6,7 @@ import {
   PublishState,
 } from './general'
 import http from './http'
-import { Tag } from './tag'
+import { ITag } from './tag'
 
 /** 文章来源 */
 export enum ArticleOrigin {
@@ -29,7 +29,7 @@ export enum SortType {
 }
 
 /** 文章 */
-export interface Article {
+export interface IArticle {
   id?: number
   _id?: string | number
   slug: string | null
@@ -38,7 +38,7 @@ export interface Article {
   description: string
   keywords: string[]
   thumb?: string
-  tag: Array<Tag>
+  tag: Array<ITag>
   category: Array<Category>
   origin: ArticleOrigin
   public: ArticlePublic
@@ -55,24 +55,15 @@ export interface Article {
   extends: Array<GeneralExtend>
 }
 
-/** 获取文章参数 */
-// export interface GetArticleParams extends GeneralGetPageParams {
-//   keyword?: string;
-//   tag?: string;
-//   category?: string;
-//   sort?: SortType;
-//   state?: PublishState;
-//   public?: ArticlePublic;
-//   origin?: ArticleOrigin;
-// }
 type ArticleResult = {
-  data: Article[]
+  data: IArticle[]
   pagination: Pagination
 }
+
 export const ARTICLE_API_PATH = '/article'
 
 export const getArticles = (params?) => {
-  console.log(params, '请求参数')
+  // console.log(params, '请求参数')
   return http
     .get<ArticleResult>(`/article`, {
       params,
