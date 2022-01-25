@@ -1,18 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ArticleList from 'components/Common/ArticleList'
 import InfiniteScroll from 'react-infinite-scroller'
-import { DatePicker, Carousel, Spin, Button, Divider } from '@arco-design/web-react'
+
 import HotArticle from 'components/Common/HotArticle'
 import TagList from 'components/Common/TagList'
 import { NextPage } from 'next'
-import { Affix } from '@arco-design/web-react'
+
 import { IArticle, getArticles, SortType } from '@/api/article'
 import { Pagination } from '@/api/general'
 import { useRouter } from 'next/router'
 import { getTags, ITag } from '@/api/tag'
+import { advertResource } from '@/constants'
+import { Affix, Button, Carousel, Divider } from '@arco-design/web-react'
 
 interface IIndexPageProps {
   articles: IArticle[]
+  hotArticles: IArticle[]
   tags: ITag[]
 }
 
@@ -26,6 +29,7 @@ const defaultPagination: Pagination = {
 const IndexPage: NextPage<IIndexPageProps> = ({
   articles: defaultArticles = [],
   tags = [],
+  hotArticles = []
 }) => {
   const router = useRouter()
   const [articles, setArticles] = useState<IArticle[]>(defaultArticles)
@@ -35,9 +39,8 @@ const IndexPage: NextPage<IIndexPageProps> = ({
   const [page, setPage] = useState<number>(1)
   const [sort, setSort] = useState<SortType>(null)
 
-
+  console.log("热门文章列表", hotArticles)
   useEffect(() => {
-    const query = router.query as any
     fetchArticle()
   }, [router.query])
 
@@ -81,25 +84,22 @@ const IndexPage: NextPage<IIndexPageProps> = ({
       <div className="w-full text-gray-500 rounded-lg sm:w-3/4 ">
         <div className="flex p-3 mb-2 duration-700 bg-white dark:bg-gray-800 bg-opacity-60 hover:bg-white dark:hover:bg-gray-600">
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${
-              sort === SortType.Asc ? 'text-primary font-bold' : ''
-            }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Asc ? 'text-primary font-bold' : ''
+              }`}
             onClick={() => setSort(SortType.Asc)}
           >
             最早
           </span>
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${
-              sort === SortType.Desc ? 'text-primary font-bold' : ''
-            }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Desc ? 'text-primary font-bold' : ''
+              }`}
             onClick={() => setSort(SortType.Desc)}
           >
             最新
           </span>
           <span
-            className={`mr-5 cursor-pointer hover:text-primary ${
-              sort === SortType.Hot ? 'text-primary font-bold' : ''
-            }`}
+            className={`mr-5 cursor-pointer hover:text-primary ${sort === SortType.Hot ? 'text-primary font-bold' : ''
+              }`}
             onClick={() => setSort(SortType.Hot)}
           >
             最热
@@ -122,10 +122,9 @@ const IndexPage: NextPage<IIndexPageProps> = ({
       </div>
       <div className="hidden w-1/4 ml-5 sm:block">
         <Affix offsetTop={60}>
-          <HotArticle hotList={articles.sort((one, two) => one.meta?.views! - two.meta?.views! )}/>
-          {/* 广告 */}
-          {/* <Carousel
-            className="dark:bg-gray-800"
+          <HotArticle hotList={hotArticles} />
+          <Carousel
+            className="mt-5 dark:bg-gray-800"
             style={{
               height: 120,
               marginBottom: 20
@@ -135,12 +134,12 @@ const IndexPage: NextPage<IIndexPageProps> = ({
             direction="vertical"
             indicatorPosition="right"
           >
-            {imageSrc.map((src, index) => (
+            {advertResource.map((src, index) => (
               <div key={index}>
                 <img src={src} className="w-full" />
               </div>
             ))}
-          </Carousel> */}
+          </Carousel>
           <TagList tags={tags} />
         </Affix>
       </div>
@@ -152,10 +151,11 @@ export default IndexPage
 
 // 服務端預獲取數據
 IndexPage.getInitialProps = async () => {
-  const [articles, tags] = await Promise.all([getArticles(), getTags()])
+  const [articles, tags, hotArticles] = await Promise.all([getArticles(), getTags(), getArticles({ cache: 1, sort: SortType.Hot })])
 
   return {
     articles: articles.data,
     tags: tags.data,
+    hotArticles: hotArticles.data
   }
 }

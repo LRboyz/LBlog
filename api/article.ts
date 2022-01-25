@@ -70,14 +70,8 @@ export const getArticles = (params?) => {
     })
     .then((response) => response.result)
 }
-// export function getArticles(params = {}) {
-//   console.log(params, '请求参数')
-//   return http
-//     .get<{
-//       data: Article[]
-//       pagination: Pagination
-//     }>(ARTICLE_API_PATH, {
-//       params,
-//     })
-//     .then((response) => response.result)
-// }
+
+// 获取文章详情
+export const getArticle = (articleId: number) => {
+  return http.get<IArticle>(`/article/${articleId}`).then((response) => response.result)
+}

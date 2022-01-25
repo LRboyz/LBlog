@@ -6,9 +6,7 @@ import LightLogo from '/public/logo/logo_light.png'
 import DarkLogo from '/public/logo/logo_dark.png'
 import cn from "classnames";
 import { useTheme } from "next-themes";
-import { NextPage } from "next";
 import { Category, getCategorys } from "@/api/category";
-import { Pagination } from "@/api/general";
 import { Space } from "@arco-design/web-react";
 
 
@@ -49,17 +47,15 @@ const AppLayout: React.FC = ({ children }) => {
   return (
     <div className="bg-gray-50 dark:bg-gray-800 ">
       <header className="flex flex-col justify-center border-b divide-gray-100">
-        <nav className="relative flex items-center justify-between w-full max-w-4xl pt-3 mx-auto text-gray-900 border-gray-200 dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
+        <nav className="relative flex items-center w-full max-w-5xl pt-3 mx-auto text-gray-900 border-gray-200 flex-start dark:border-gray-900 sm:pb-3 bg-gray-50 dark:bg-gray-800 bg-opacity-60 dark:text-gray-100">
           <a href="/" className="text-bold skip-nav">
             <Image src={resolvedTheme === "light" ? LightLogo : DarkLogo} width={150} height={40} />
           </a>
-          {/* <div className="ml-[-0.60rem]">
-            <NavItem href="/" text="Home" />
-            <NavItem href="/about" text="About" />
-            <NavItem href="/project" text="Project" />
-            <NavItem href="/blog" text="Blog" />
-            <NavItem href="/snippets" text="Snippets" />
-          </div> */}
+          <div className="">
+            <NavItem href="/" text="首页" />
+            <NavItem href="/about" text="关于我" />
+          </div>
+          <div className="flex-1"></div>
           <button
             aria-label="Toggle Dark Mode"
             type="button"
@@ -96,8 +92,8 @@ const AppLayout: React.FC = ({ children }) => {
       </header>
 
       <nav className="sticky top-0 " style={{ zIndex: 999 }}>
-        <div className="flex w-full text-black bg-opacity-50 bg-gray-50 dark:bg-gray-800 backdrop-blur-md p-1">
-          <ul className="container flex max-w-4xl p-2 mx-auto">
+        <div className="flex w-full p-1 text-black bg-opacity-50 bg-gray-50 dark:bg-gray-800 backdrop-blur-md">
+          <ul className="container flex max-w-5xl p-2 mx-auto">
             {
               categories.map(category => (
                 <Space key={category._id}>
@@ -115,7 +111,7 @@ const AppLayout: React.FC = ({ children }) => {
       </nav>
 
       <main className="flex justify-center min-h-screen px-4 bg-gray-100 dark:bg-gray-900">
-        <div className="container max-w-4xl mx-auto">
+        <div className="container max-w-5xl mx-auto">
           {children}
         </div>
       </main>

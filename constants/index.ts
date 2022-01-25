@@ -1,31 +1,5 @@
-export const COLORS = [
-  "red",
-  "orangered",
-  "orange",
-  "gold",
-  "lime",
-  "green",
-  "cyan",
-  "blue",
-  "arcoblue",
-  "purple",
-  "pinkpurple",
-  "magenta",
-  "gray",
-];
-
-export const COLORS_CUSTOM = [
-  "#f53f3f",
-  "#7816ff",
-  "#00b42a",
-  "#165dff",
-  "#ff7d00",
-  "#eb0aa4",
-  "#7bc616",
-  "#86909c",
-  "#b71de8",
-  "#0fc6c2",
-  "#ffb400",
-  "#168cff",
-  "#ff5722",
-];
+export const advertResource = [
+  'https://img.thosefree.com/wp-content/uploads/2021/10/arco-design-cover.jpg&360x203.jpg',
+  'https://img.thosefree.com/wp-content/uploads/2021/09/radix-icons-cover.jpg&360x203.jpg',
+  'https://img.thosefree.com/wp-content/uploads/2021/12/tdesign-cover.jpg&360x203.jpg',
+]

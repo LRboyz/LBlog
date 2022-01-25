@@ -1,0 +1,59 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.8em;
+  font-weight: 700;
+  text-indent: 0;
+}
+
+.markdownBody {
+  padding-top: 10px;
+  word-break: break-word;
+  line-height: 1.8;
+  font-weight: 400;
+  font-size: 14px;
+  word-spacing: 2px;
+  letter-spacing: 2px;
+  overflow-x: hidden;
+  color: #3e3e3e;
+  background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.05) 3%, transparent 0),
+    linear-gradient(1turn, rgba(50, 0, 0, 0.05) 3%, transparent 0);
+  background-size: 20px 20px;
+  background-position: 50%;
+}
+
+img {
+  object-fit: cover;
+  width: 100%;
+}
+blockquote {
+  color: rgb(53, 52, 52);
+  padding: 20px 23px;
+  margin: 22px 0;
+  border-left: 4px solid #0052d9;
+  background-color: #e6ebfc;
+}
+
+p {
+  margin: 0;
+}
+
+.markdownBody > h1:nth-child(1) {
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+}
+
+code {
+  color: white;
+  vertical-align: middle;
+  margin: 0;
+  border-radius: 10px;
+}
+
+pre {
+  margin: 10px 0;
+}

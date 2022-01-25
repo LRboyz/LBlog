@@ -1,6 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import "styles/global.css";
+import 'styles/markdown.css'
+// import 'github-markdown-css/github-markdown.css';
+import 'highlight.js/styles/docco.css'
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import AppLayout from "@/components/Layout/AppLayout";
@@ -20,3 +23,4 @@ export default function App({ Component, pageProps }: AppProps) {
     </React.Fragment>
   );
 }
+

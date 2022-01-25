@@ -21,7 +21,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
           <Link href={`/article/${article.id}`} key={index}>
             <div
               key={article._id}
-              className="relative mb-4 duration-300 bg-white bg-opacity-50 dark: bg-opacity-5 bg-center rounded-md shadow cursor-pointer dark:bg-dark-100 h-36 hover:bg-white dark:hover:bg-gray-600 overflow-clip"
+              className="relative mb-4 duration-300 bg-white bg-opacity-50 bg-center rounded-md shadow cursor-pointer dark: bg-opacity-5 dark:bg-dark-100 h-36 hover:bg-white dark:hover:bg-gray-600 overflow-clip"
             >
               <div className="absolute inset-0 flex p-2">
                 <a className="flex items-center " style={{ width: 200 }}>
@@ -34,7 +34,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
 
                 <div className="flex-col flex-auto flex-grow px-3">
                   <div className="flex h-30">
-                    <h1 className="flex-auto text-sm font-semibold truncate">
+                    <h1 className="flex-auto font-sans text-sm font-semibold truncate">
                       {article.title}
                     </h1>
                     <div className="flex hidden sm:block">
@@ -43,7 +43,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                           <Tag
                             key={tag._id}
                             color="arcoblue"
-                            className="mr-4"
+                            className="mr-4 font-sans"
                             icon={
                               <IconFont
                                 type={getExtendValue(tag.extends, 'icon')}
@@ -59,7 +59,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                   </div>
 
                   <p
-                    className="w-full mt-3 text-sm break-words truncate text-gray dark:text-dark"
+                    className="w-full mt-3 font-sans text-sm break-words truncate text-gray dark:text-dark"
                     style={{ minHeight: 70 }}
                   >
                     {article.description}
@@ -83,12 +83,12 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                       </Space>
                     </div>
                     <div style={{ flex: 1 }} className="hidden sm:block"></div>
-                    <span className="text-xs text-gray dark:text-dark">一周前</span>
+                    <span className="font-sans text-xs text-gray dark:text-dark">一周前</span>
                   </div>
                 </div>
               </div>
               <div
-                className="dark:opacity-5 inset-0 w-full h-full duration-700 bg-center bg-no-repeat absoulte opacity-5 hover:opacity-0 dark:hover:bg-gray-600"
+                className="inset-0 w-full h-full duration-700 bg-center bg-no-repeat dark:opacity-5 absoulte opacity-5 hover:opacity-0 dark:hover:bg-gray-600"
                 style={{
                   backgroundImage: `url(${article.thumb})`,
                   backgroundSize: '120%',
@@ -98,7 +98,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
           </Link>
         ))
       ) : (
-        <div className='w-full flex justify-center p-5'><Empty description="暂无文章"/>,</div>
+        <div className='flex justify-center w-full p-5'><Empty description="暂无文章" />,</div>
       )}
 
     </div>

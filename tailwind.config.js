@@ -10,6 +10,9 @@ module.exports = {
       primary: '#2563EB',
       gray: '#6B7280',
     },
+    fontSize: {
+      sm: '13.60px',
+    },
   },
   darkMode: 'class',
 }
