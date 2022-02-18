@@ -8,9 +8,11 @@ export enum HTTPStatus {
 }
 
 type HTTPResult<T = any> = {
-  status: HTTPStatus.Success
-  message: string
-  result: T
+  total: number
+  requestId: string
+  offset: number
+  limit: number
+  data: T
 }
 
 const http = axios.create({
@@ -36,10 +38,10 @@ http.interceptors.response.use(
       message:
         error.response?.data?.error || error.response?.statusText || errorJSON.message,
     }
-    Notification.error({
-      title: 'Error ！',
-      content: errorInfo.message,
-    })
+    // Notification.error({
+    //   title: 'Error ！',
+    //   content: errorInfo.message,
+    // })
     console.debug('axios error:', {
       axiosName: errorJSON.name,
       axiosMessage: errorJSON.message,

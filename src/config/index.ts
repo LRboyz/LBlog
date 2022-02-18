@@ -14,5 +14,5 @@ export const IconFont = Icon.addFromIconFontCn({
 })
 
 export const APP_CONFIG = {
-  API_URL: isDevEnv ? 'http://localhost:8000' : 'http://localhost:8000',
+  API_URL: isDevEnv ? 'https://lrboy.cn/api/v1.0' : 'http://localhost:8000',
 }

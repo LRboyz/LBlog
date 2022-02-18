@@ -1,8 +1,18 @@
-import { IArticle } from '@/api/article'
-import { Pagination } from '@/api/general'
+import { IArticle } from '@/api/v1/article'
+
 import { IconFont } from '@/config'
-import { getExtendValue } from '@/transforms/state'
-import { Tag, Icon, Image, Spin, Button, Space, Skeleton, Empty, Divider } from '@arco-design/web-react'
+
+import {
+  Tag,
+  Icon,
+  Image,
+  Spin,
+  Button,
+  Space,
+  Skeleton,
+  Empty,
+  Divider,
+} from '@arco-design/web-react'
 import { IconEye, IconHeart, IconMessage, IconStar } from '@arco-design/web-react/icon'
 import Link from 'next/link'
 
@@ -18,16 +28,16 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
         <Skeleton text={{ rows: 3, width: ['100%'] }} image animation></Skeleton>
       ) : articles.length > 0 ? (
         articles.map((article, index) => (
-          <Link href={`/article/${article.id}`} key={index}>
+          <Link href={`/article/${article._id}`} key={index}>
             <div
               key={article._id}
-              className="relative mb-4 duration-300 bg-white bg-opacity-50 bg-center rounded-md shadow cursor-pointer dark: bg-opacity-5 dark:bg-dark-100 h-36 hover:bg-white dark:hover:bg-gray-600 overflow-clip"
+              className="relative mb-4 duration-700 bg-white bg-opacity-50 bg-center rounded-md shadow cursor-pointer dark: bg-opacity-5 dark:bg-dark-100 h-36 hover:bg-white dark:hover:bg-gray-600 overflow-clip"
             >
               <div className="absolute inset-0 flex p-2">
                 <a className="flex items-center " style={{ width: 200 }}>
-                  <Image
-                    style={{ minWidth: 195, minHeight: 120 }}
-                    className="flex items-center object-cover rounded-lg"
+                  <img
+                    style={{ minWidth: 195, maxHeight: 120 }}
+                    className="flex items-center object-contain rounded-lg"
                     src={`${article.thumb}`}
                   />
                 </a>
@@ -37,7 +47,7 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                     <h1 className="flex-auto font-sans text-sm font-semibold truncate">
                       {article.title}
                     </h1>
-                    <div className="flex hidden sm:block">
+                    {/* <div className="flex hidden sm:block">
                       {article.tag
                         .map((tag, index) => (
                           <Tag
@@ -46,20 +56,20 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                             className="mr-4 font-sans"
                             icon={
                               <IconFont
-                                type={getExtendValue(tag.extends, 'icon')}
+                                // type={getExtendValue(tag.extends, 'icon')}
                                 style={{ fontSize: 14 }}
                               />
                             }
                           >
-                            {tag.name}
+                            {tag.tag_name}
                           </Tag>
                         ))
                         .slice(0, 2)}
-                    </div>
+                    </div> */}
                   </div>
 
                   <p
-                    className="w-full mt-3 font-sans text-sm break-words truncate text-gray dark:text-dark"
+                    className="w-full mt-3 font-sans text-sm truncate text-gray dark:text-dark"
                     style={{ minHeight: 70 }}
                   >
                     {article.description}
@@ -83,7 +93,9 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
                       </Space>
                     </div>
                     <div style={{ flex: 1 }} className="hidden sm:block"></div>
-                    <span className="font-sans text-xs text-gray dark:text-dark">一周前</span>
+                    <span className="font-sans text-xs text-gray dark:text-dark">
+                      一周前
+                    </span>
                   </div>
                 </div>
               </div>
@@ -98,9 +110,10 @@ export default function ArticleList({ articles, fetching }: ArticleListProps) {
           </Link>
         ))
       ) : (
-        <div className='flex justify-center w-full p-5'><Empty description="暂无文章" />,</div>
+        <div className="flex justify-center w-full p-5">
+          <Empty description="暂无文章" />
+        </div>
       )}
-
     </div>
   )
 }
